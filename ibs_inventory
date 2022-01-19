@@ -1,0 +1,19 @@
+[ibs]
+badaun-ibs     ansible_host=192.168.1.210
+basti-ibs      ansible_host=192.168.1.216
+ccbl-ibs       ansible_host=192.168.1.251
+dhanbad-ibs    ansible_host=192.168.1.149
+hisar-ibs      ansible_host=192.168.1.189
+ip-ibs         ansible_host=192.168.1.249
+janata-ibs     ansible_host=192.168.1.199
+khattri-ibs    ansible_host=192.168.1.252
+morena-ibs     ansible_host=192.168.1.213
+nabadwip-ibs   ansible_host=192.168.1.226
+nsbetawah-ibs  ansible_host=192.168.1.214
+postal-ibs     ansible_host=192.168.1.188
+ramgarhia-ibs  ansible_host=192.168.1.150
+snagar-ibs     ansible_host=192.168.1.219
+
+[ibs:vars]
+ansible_ssh_user=glassfish
+ansible_ssh_password=sipl@123

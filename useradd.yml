@@ -1,0 +1,58 @@
+- name: Users and Group Setup  
+  hosts: all 
+  gather_facts: no
+  tasks: 
+      - name: Ensure group "stellar" exists
+        group:
+               name: "{{ item }}"
+               state: present
+        with_items:
+                - dbteam
+                - supporteam
+                - admin
+
+      - name: Add user details and Apply the password 
+        user: 
+                name: "{{ item.x }}" 
+                comment: "{{ item.y }}"
+                groups: "{{ item.v }}"
+                password: "{{ item.z  | password_hash('sha512')  }}" 
+        with_items:
+                - { x: 'manab', y: 'Manab Joardar', z: 'MJordar@3321', v: 'dbteam' }
+                - { x: 'naroz', y: 'Naroz Alam', z: 'Nalam@3521', v: 'dbteam' }
+                - { x: 'nikhil', y: 'Nikhil Gupta', z: 'Nkhil@3211', v: 'dbteam' }
+                - { x: 'raghib', y: 'Raghib Ahsan', z: 'Raghib@2321', v: 'supporteam' }
+                - { x: 'danish', y: 'Danish Feraz Ahmad', z: 'danish@2531', v: 'supporteam' }
+                - { x: 'sufiyan', y: 'Mohd Sufiyan', z: 'sufiyan@3321', v: 'supporteam' }
+                - { x: 'vishal', y: 'Vishal Sen', z: 'wish@123', v: 'admin' }
+                - { x: 'ravendra', y: 'Ravendra Rana', z: 'rave@123', v: 'admin' }
+                - { x: 'glassfish', y: 'app user', z: 'HRA$&?VF7r6s4SnQ', v: 'admin' }
+
+      - name: Sets default ACL for supporteam group
+        acl:
+          path: /opt/conf
+          entity: supporteam
+          etype: group
+          permissions: rw
+          recursive: true
+          default: yes
+          state: present
+      - name: Sets default ACL for supporteam group
+        acl:
+          path: /home
+          entity: supporteam
+          etype: group
+          permissions: rwx
+          recursive: true
+          default: yes
+          state: present
+
+      - name: Sets default ACL for dbteam group
+        acl:
+          path: /opt/conf
+          entity: dbteam
+          etype: group
+          permissions: rw
+          recursive: true
+          default: yes
+          state: present

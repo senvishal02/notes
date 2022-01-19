@@ -1,0 +1,25 @@
+- hosts:
+       - etawah
+  gather_facts: false
+  vars: 
+        var1: files/domainsyntax.txt
+  tasks: 
+#     - name: "copy error page"
+#       copy:
+#         src: files/error.html
+#         dest: /opt/glassfish3/glassfish/domains/domain1/applications/
+#         mode: 777
+
+     - lineinfile:
+        path: /opt/glassfish3/glassfish/domains/domain1/config/domain.xml
+        regexp: <virtual-server id="server" network-listeners="http-listener-1,http-listener-2"></virtual-server>
+        line: |
+               {{ lookup('file', var1) }}
+     - name: kill java
+       shell: pkill -9 java
+
+     - name: start glassfish
+       service:
+            name: glassfish
+            state: started
+
