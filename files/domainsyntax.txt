@@ -1,3 +1,0 @@
-        <virtual-server id="server" network-listeners="http-listener-1,http-listener-2">
-          <property name="send-error_1" value="path=../applications/error.html reason=Resource_not_found code=404"></property>
-        </virtual-server>
