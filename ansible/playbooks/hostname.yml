@@ -1,0 +1,8 @@
+---
+- hosts: all
+  gather_facts: no
+  tasks: 
+  - name: Hostname configuration
+    shell: echo -e "`ip route get 8.8.8.8 | awk '{gsub(".*src",""); print $1; exit}'`\t`echo $HOSTNAME`" >> /etc/hosts
+    
+... 

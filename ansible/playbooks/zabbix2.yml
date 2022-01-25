@@ -1,0 +1,4 @@
+- hosts: all
+  tasks:
+  - name: Add hostname for zabbix-agent
+    shell: echo "Hostname=`hostname`" >> /etc/zabbix/zabbix_agentd.conf

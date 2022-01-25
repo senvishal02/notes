@@ -1,0 +1,62 @@
+- name: Ear Deployment 
+  hosts: 
+       - all
+  serial: 5
+  gather_facts: no
+  tasks: 
+
+       - block:
+
+             - name: copy /opt/cbs.ear into /opt
+               copy: 
+                            src: /opt/cbs.ear
+                            dest: /opt/
+   
+             - name: "kill java"
+               shell: pkill -9 java
+   
+             - name: Remove file a(delete old log4j jar files)
+               file:
+                 path: '{{ item }}'
+                 state: absent
+               with_items:
+                 - /opt/glassfish3/glassfish/lib/log4j-1.2.14.jar
+                 - /opt/glassfish3/glassfish/lib/slf4j-log4j12-1.6.0.jar
+   
+   
+             - name: copy new log4j jar files
+               copy:
+                 src: "{{ item }}"
+                 dest: /opt/glassfish3/glassfish/lib/
+                 owner: root
+                 mode: 777
+               with_items:
+                 - /root/ansible/files/log4j_jar/log4j-api-2.12.2.jar
+                 - /root/ansible/files/log4j_jar/log4j-core-2.12.2.jar
+                 - /root/ansible/files/log4j_jar/log4j-slf4j-impl-2.12.2.jar
+   
+             - name: "start glassfish"
+               service: 
+                     name: glassfish
+                     state: restarted
+   
+             - name: "undeploying cbs" 
+               command: /opt/glassfish3/glassfish/bin/./asadmin undeploy --user admin --passwordfile /opt/password.txt cbs
+   
+             - name: "deploying cbs" 
+               command: /opt/glassfish3/glassfish/bin/./asadmin deploy --user admin --passwordfile /opt/password.txt /opt/cbs.ear
+
+
+         rescue:
+
+             - name: "start glassfish"
+               service:
+                        name: glassfish
+                        state: restarted
+
+             - name: "undeploying cbs"
+               command: /opt/glassfish3/glassfish/bin/./asadmin undeploy --user admin --passwordfile /opt/password.txt cbs
+
+             - name: "deploying cbs"
+               command: /opt/glassfish3/glassfish/bin/./asadmin deploy --user admin --passwordfile /opt/password.txt /opt/cbs.ear
+

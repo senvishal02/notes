@@ -1,0 +1,25 @@
+- name: Ear Deployment 
+  hosts: 
+       - khattri
+  serial: 10
+  gather_facts: no
+  tasks: 
+
+          - name: copy /opt/cbs.ear into /opt
+            copy: 
+                         src: /opt/cbs.ear
+                         dest: /opt/
+
+          - name: "kill java"
+            shell: pkill -9 java
+
+          - name: "start glassfish"
+            service: 
+                  name: glassfish
+                  state: restarted
+
+          - name: "undeploying cbs" 
+            command: /opt/glassfish3/glassfish/bin/./asadmin undeploy --user admin --passwordfile /opt/password.txt cbs
+
+          - name: "deploying cbs" 
+            command: /opt/glassfish3/glassfish/bin/./asadmin deploy --user admin --passwordfile /opt/password.txt /opt/cbs.ear

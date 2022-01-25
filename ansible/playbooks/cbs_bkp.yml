@@ -1,0 +1,20 @@
+- name: run backup from cbs hosts
+  hosts: all
+  serial: 10
+  gather_facts: no
+  tasks: 
+
+    - name: glassfish log backup shell
+      shell: /usr/local/bin/logbkp.sh
+
+    - name: home backup shell
+      shell: sh  /usr/local/bin/homebkp.sh
+
+    - name: signature backup shell
+      shell: sh /usr/local/bin/sigbkp.sh
+    
+    - name: cts-image backup shell
+      shell: sh /usr/local/bin/ctsbkp.sh
+
+    - name: delete glassfish log more then 15 days shell
+      shell: sh /usr/local/bin/logbkp.sh

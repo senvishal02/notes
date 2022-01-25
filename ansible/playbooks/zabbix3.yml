@@ -1,0 +1,10 @@
+- name: Zabbix
+  hosts: agra
+  gather_facts: no
+  tasks: 
+
+
+          - name: restart zabbix-agent
+            service:
+                 name: zabbix-agent
+                 state: restarted         
