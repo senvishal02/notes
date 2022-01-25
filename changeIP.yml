@@ -1,9 +1,0 @@
----
-- hosts: all
-  gather_facts: no
-  tasks: 
-
-  - name: Change IP Address
-    shell: sed -i 's/10.11.12/192.168.1/'  /etc/sysconfig/network-scripts/ifcfg-ens192
-
-... 

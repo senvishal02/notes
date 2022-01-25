@@ -1,3 +1,0 @@
-#!/bin/bash
-
-echo -n "$HOSTNAME  " ; echo "$(ls -l /opt/glassfish3/glassfish/domains/domain1/applications/ | sed -n '2p' | awk '{print $6,$7,$8}')"

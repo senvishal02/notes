@@ -1,7 +1,0 @@
-- hosts: all
-  gather_facts: false
-  tasks: 
-    - name: copy /opt/cbs.ear into /opt
-      copy: 
-        src: /opt/cbs.ear
-        dest: /opt/
